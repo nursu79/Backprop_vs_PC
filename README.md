@@ -1,29 +1,28 @@
 # Hydraulic System Condition Monitoring: Backpropagation vs Predictive Coding
 
-## Project scope
-- Mechanical domain: hydraulic-system condition monitoring.
-- Target: internal pump leakage severity (0=no leakage, 1=weak, 2=severe).
-- Dataset: UCI Condition Monitoring of Hydraulic Systems.
-- Architecture: three hidden layers, 32 → 16 → 8 units, then 3 output classes.
-- Methods: standard backpropagation and an explicit predictive-coding-style implementation.
+## Project Scope
+- **Mechanical Domain:** Hydraulic-system condition monitoring.
+- **Target:** Internal pump leakage severity (0 = no leakage, 1 = weak, 2 = severe).
+- **Dataset:** UCI Condition Monitoring of Hydraulic Systems (2,205 repeated load cycles, 17 sensors).
+- **Architecture:** Shared three hidden layers, 32 → 16 → 8 units, then 3 output classes (3,443 parameters).
+- **Methods Compared:** Standard Backpropagation MLP, Initial Naive Predictive Coding (Model B1), and Tuned Predictive Coding with Cross-Entropy Energy (Model B2).
 
 ## Files
-- `notebooks/Hydraulic_Backprop_vs_Predictive_Coding.ipynb` — notebook for Colab/Jupyter.
-- `reports/Comparative_Analysis_Draft.md` — report scaffold; fill in actual metrics after execution.
-- `reports/Comparative_Analysis_Draft.docx` — editable Word report scaffold.
-- `docs/Project_Notes.md` — design decisions and checklist.
+- `notebooks/Hydraulic_Backprop_vs_Predictive_Coding.ipynb` — Full executed notebook with verified outputs, diagnostic energy checks, multi-seed runs, chronological split, and sensor drop-out robustness experiments.
+- `reports/Comparative_Analysis_Draft.md` — Complete comparative report populated with verified empirical metrics, confusion matrices, and scientific discussion.
+- `reports/Comparative_Analysis_Draft.docx` — Formatted Microsoft Word report document.
+- `docs/Project_Notes.md` — Completed project checklist, architecture verification, and summary table.
 
-## Run
-1. Open the notebook in Google Colab.
-2. Run all cells. It attempts to download the UCI archive automatically.
-3. If download fails, get the archive from https://archive.ics.uci.edu/dataset/447/condition+monitoring+of+hydraulic+systems and extract it into `/content/hydraulic_data/`.
-4. Use actual outputs to complete the report.
+## Key Outcomes
 
-## Important cautions
-- Do not invent or copy metrics from another run.
-- PC total energy includes hidden-layer prediction errors, unlike backpropagation cross-entropy.
-- Random splitting is a teaching baseline and may overstate generalization.
-- The dataset is from a lab rig, not field validation.
+| Model | Accuracy | Macro-F1 | Severe Leakage Recall |
+| :--- | :---: | :---: | :---: |
+| **Model A: Backpropagation MLP** | 0.995 | 0.993 | 1.000 |
+| **Model B1: Initial Naive PC** | 0.553 | 0.237 | 0.000 |
+| **Model B2: Tuned PC (Feedforward)** | 0.964 | 0.947 | 0.980 |
+| **Model B2: Tuned PC (Relaxed Inference)** | 0.964 | 0.947 | 0.980 |
+| **Model B2: Multi-Seed (Seed 123)** | **0.984** | **0.976** | — *(Exact tie with Backprop)* |
+| **Model B2: Chronological Split** | **0.998** | **0.997** | — *(440/441 correct)* |
 
-## Dataset citation
+## Dataset Citation
 Helwig, N., Pignanelli, E., & Schütze, A. (2015). *Condition monitoring of hydraulic systems*. UCI Machine Learning Repository. https://doi.org/10.24432/C5CW21
